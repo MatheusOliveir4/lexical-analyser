@@ -69,7 +69,7 @@ def make_follow_set(symbol):
                     follow[symbol].add(b)
 
                 elif b in first:
-                    follow[symbol].update(first[b])
+                    follow[symbol].update(first[b] - {''})
 
                     if '' in first[b]:
                         follow[symbol].update(make_follow_set(A))
@@ -84,11 +84,6 @@ def make_Mtable():
 
     for var in G:
         make_follow_set(var)
-
-    for var in follow:
-        print(var, follow[var])
-
-    print("\n")
 
     for var in VARIABLES:
         M_table[var] = {}
@@ -115,9 +110,10 @@ def make_Mtable():
                     M_table[A][terminal] = {}
                     M_table[A][terminal] = prod
 
-make_Mtable()
 
 def predetive_descending_analysis(expression):
+    make_Mtable()
+    
     expression = expression + ['$']
     stack = [initial_variable]
 
